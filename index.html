@@ -24,8 +24,66 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section id="algebraic-data-types">
+					<section>
+						Haskell Syntax: Algebraic Data Types
+					</section>
+					<section id="boolean-1">
+						Boolean type
+						<pre><code data-trim data-noescape class=language-haskell>
+							data Bool = True | False
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								λ> :t False
+								False :: Bool
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								λ> :t True
+								True :: Bool
+							</code></pre>
+						</span>
+					</section>
+					<section id="boolean-2">
+						Boolean type
+						<pre><code data-trim data-noescape class=language-haskell>
+							data Bool = True | False
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+λ> True
+<interactive>:11:1: error:
+    • No instance for (Show Bool) arising from a use of ‘print’
+      There are instances for similar types:
+        instance Show Prelude.Bool -- Defined in ‘GHC.Show’
+    • In a stmt of an interactive GHCi command: print it
+(0.00 secs,)
+							</code></pre>
+						</span>
+					</section>
+					<section id="boolean-3">
+						Boolean type
+						<pre><code data-trim data-noescape class=language-haskell>
+							data Bool = True | False<span class="fragment fade-in"> deriving Show</span>
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								λ> True
+								True
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section id="maybe">
+						Algebraic Data Types
+						<pre><code data-trim data-noescape class=language-haskell>
+							data Maybe a = Nothing | Just a
+						</code></pre>
+					</section>
+				</section>
 			</div>
 		</div>
 
