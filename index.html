@@ -102,31 +102,132 @@
 					<section id="typeclass-show">
 						Show Typeclass
 					</section>
-					<section id="typeclasses-anatomy">
+					<section id="typeclasses-show-1">
 						Show Typeclass
 						<pre><code data-trim data-noescape class=language-haskell>
 							class Show a where
-							  show :: a -> String
+							  (==) :: a -> String
 						</code></pre>
 						<span class="fragment fade-in">
-							for the type <code data-trim data-noescape class=language-haskell>Bool</code>
 							<pre><code data-trim data-noescape class=language-haskell>
-								instance Show Bool where
-								  show :: Bool -> String
-								  show True  = "True"
-								  show False = "False"
+								data Color = Red | Green | Blue
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							or
 							<pre><code data-trim data-noescape class=language-haskell>
-								deriving instance Show Bool
+								instance Show Color where
+								  show Red   = "Red"
+								  show Green = "Green"
+								  show Blue  = "Blue"
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							or
 							<pre><code data-trim data-noescape class=language-haskell>
-								data Bool = False | True deriving Show
+								deriving instance Show Color
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue deriving Show
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section id="typeclass-eq">
+						Eq Typeclass
+					</section>
+					<section id="typeclasses-eq-1">
+						Eq Typeclass
+						<pre><code data-trim data-noescape class=language-haskell>
+							class Eq a where
+							  (==) :: a -> a -> Bool
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Eq Color where
+								  (==) Red   Red   = True
+								  (==) Green Green = True
+								  (==) Blue  Blue  = True
+								  (==) _     _     = False
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								deriving instance Eq Color
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue deriving Eq
+							</code></pre>
+						</span>
+					</section>
+					<section id="typeclasses-eq-2">
+						Eq Typeclass
+						<pre><code data-trim data-noescape class=language-haskell>
+							class Eq a where
+							  (==) :: a -> Bool
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue deriving (Eq, Show)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> Red == Red
+								True
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> Green == Blue
+								False
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section id="typeclass-ord">
+						Ord Typeclass
+					</section>
+					<section id="typeclasses-ord-1">
+						Ord Typeclass
+						<pre><code data-trim data-noescape class=language-haskell>
+							data Ordering = LT | EQ | GT deriving (Eq, Show)
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Eq a => Ord a where
+								  compare :: a -> a -> Bool
+								<span class="fragment fade-in">
+								  x <  y = case compare x y of { LT -> True;  _ -> False }
+								  x <= y = case compare x y of { GT -> False; _ -> True  }
+								  x >  y = case compare x y of { GT -> True;  _ -> False }
+								  x >= y = case compare x y of { LT -> False; _ -> True  }</span>
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue deriving (Eq, Ord, Show)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> Red < Green
+								True
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> Green > Blue
+								False
 							</code></pre>
 						</span>
 					</section>
