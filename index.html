@@ -24,9 +24,12 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
+				<section id="intro">
+					A whirlwind tour of typeclasses
+				</section>
 				<section id="algebraic-data-types">
 					<section>
-						Haskell Syntax: Algebraic Data Types
+						Algebraic Data Types
 					</section>
 					<section id="boolean-1">
 						Boolean type
@@ -78,9 +81,12 @@
 				</section>
 				<section>
 					<section id="maybe">
-						Algebraic Data Types
+						Algebraic Data Types with Type Variables
+					</section>
+					<section id="maybe">
+						Maybe Type
 						<pre><code data-trim data-noescape class=language-haskell>
-							data Maybe a = Nothing | Just a
+							data Maybe a = Nothing | Just a<span class="fragment fade-in"> deriving Show</span>
 						</code></pre>
 					</section>
 				</section>
