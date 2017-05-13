@@ -77,6 +77,25 @@
 								True
 							</code></pre>
 						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								λ> show True
+								"True"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								λ> :t show
+								show :: Show a => a -> String
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								λ> :info Show
+								class Show a where
+								  show :: a -> String
+							</code></pre>
+						</span>
 					</section>
 				</section>
 				<section>
