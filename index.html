@@ -99,13 +99,19 @@
 					</section>
 				</section>
 				<section>
-					<section id="maybe">
-						Algebraic Data Types with Type Variables
+					<section id="typeclasses">
+						Typeclasses
 					</section>
-					<section id="maybe">
-						Maybe Type
+					<section id="typeclasses-anatomy">
 						<pre><code data-trim data-noescape class=language-haskell>
-							data Maybe a = Nothing | Just a<span class="fragment fade-in"> deriving Show</span>
+							class Show a where
+							  show :: a -> String
+						</code></pre>
+						<pre><code data-trim data-noescape class=language-haskell>
+							instance Show Bool where
+							  show :: Bool -> String
+							  show True  = "True"
+							  show False = "False"
 						</code></pre>
 					</section>
 				</section>
