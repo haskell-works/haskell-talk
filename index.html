@@ -99,20 +99,36 @@
 					</section>
 				</section>
 				<section>
-					<section id="typeclasses">
-						Typeclasses
+					<section id="typeclass-show">
+						Show Typeclass
 					</section>
 					<section id="typeclasses-anatomy">
+						Show Typeclass
 						<pre><code data-trim data-noescape class=language-haskell>
 							class Show a where
 							  show :: a -> String
 						</code></pre>
-						<pre><code data-trim data-noescape class=language-haskell>
-							instance Show Bool where
-							  show :: Bool -> String
-							  show True  = "True"
-							  show False = "False"
-						</code></pre>
+						<span class="fragment fade-in">
+							for the type <code data-trim data-noescape class=language-haskell>Bool</code>
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Show Bool where
+								  show :: Bool -> String
+								  show True  = "True"
+								  show False = "False"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							or
+							<pre><code data-trim data-noescape class=language-haskell>
+								deriving instance Show Bool
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							or
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Bool = False | True deriving Show
+							</code></pre>
+						</span>
 					</section>
 				</section>
 			</div>
