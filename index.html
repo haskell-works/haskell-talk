@@ -141,37 +141,6 @@
 						Eq Typeclass
 						<pre><code data-trim data-noescape class=language-haskell>
 							class Eq a where
-							  (==) :: a -> a -> Bool
-						</code></pre>
-						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=language-haskell>
-								data Color = Red | Green | Blue
-							</code></pre>
-						</span>
-						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=language-haskell>
-								instance Eq Color where
-								  (==) Red   Red   = True
-								  (==) Green Green = True
-								  (==) Blue  Blue  = True
-								  (==) _     _     = False
-							</code></pre>
-						</span>
-						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=language-haskell>
-								deriving instance Eq Color
-							</code></pre>
-						</span>
-						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=language-haskell>
-								data Color = Red | Green | Blue deriving Eq
-							</code></pre>
-						</span>
-					</section>
-					<section id="typeclasses-eq-2">
-						Eq Typeclass
-						<pre><code data-trim data-noescape class=language-haskell>
-							class Eq a where
 							  (==) :: a -> Bool
 						</code></pre>
 						<span class="fragment fade-in">
@@ -191,6 +160,122 @@
 								False
 							</code></pre>
 						</span>
+					</section>
+					<section id="typeclasses-eq-2">
+						Custom Eq Typeclass instance
+						<pre><code data-trim data-noescape class=language-haskell>
+							class Eq a where
+							  (==) :: a -> a -> Bool
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Eq Color where
+								  (==) Red   Red   = True
+								  (==) Green Green = True
+								  (==) Blue  Blue  = True
+								  (==) _     _     = False
+							</code></pre>
+						</span>
+					</section>
+					<section id="typeclasses-eq-3">
+						But do all possible implementations make sense?
+						<div class="fragment fade-in" style="color: red;">
+							NO!
+						</div>
+					</section>
+					<section id="typeclasses-eq-3">
+						<div class="fragment fade-in">
+							What kind of properties might we expect instances of Eq to have?
+						</div>
+						<span class="fragment fade-in">
+							<span style="color: green;">Reflexivity</span>
+							<pre><code data-trim data-noescape class=language-haskell>
+								(x == x)  ≡  True
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<span style="color: green;">Commutativity</span>
+							<pre><code data-trim data-noescape class=language-haskell>
+								(x == y)  ≡  (y == x)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<span style="color: green;">Transitivity</span>
+							<pre><code data-trim data-noescape class=language-haskell>
+								(x == y) &amp;&amp; (y == z)  ≡  (x == z)
+							</code></pre>
+						</span>
+					</section>
+					<section id="typeclasses-eq-4">
+						<div>What do you think of instances that<br>don't have these properties?</div>
+						<span class="fragment fade-in">
+							For example:
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> let nan = (0.0 / 0.0) :: Double
+								nan :: Double
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> nan == nan
+								False
+							</code></pre>
+						</span>
+						<span class="fragment fade-in" style="color: red">
+							wat?!
+						</span>
+					</section>
+					<section id="typeclasses-eq-5">
+						<div>What could possibly go wrong?</div>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> import Data.Map
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> let nan = (0.0 / 0.0) :: Double
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> let m = fromList [(0.0, "zero"), (nan, "nan")]
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> delete 0.0 m
+								fromList [(NaN,"nan")]
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> delete nan m
+								fromList [(0.0,"zero"),(NaN,"nan")]
+							</code></pre>
+						</span>
+						<span class="fragment fade-in" style="color: red">
+							u wot m8?
+						</span>
+					</section>
+					<section id="typeclasses-eq-6">
+						<div>
+							"Type classes can’t stand alone. To be useful writing generic
+							code, they need to ship with laws that describe how they
+							behave."
+						</div>
+						<div>
+							- John A De Goes
+							<br>
+							(Haskell's Type Classes: We Can Do Better)
+						</div>
 					</section>
 				</section>
 				<section>
@@ -231,6 +316,24 @@
 							</code></pre>
 						</span>
 					</section>
+					<section id="typeclasses-ord-2">
+						<div class="fragment fade-in">
+							What laws do you think <code>Ord</code> should have?
+						</div>
+						<span class="fragment fade-in">
+							<span style="color: green;">Transitivity?</span>
+							<pre><code data-trim data-noescape class=language-haskell>
+								(x <= y) &amp;&amp; (y <= z)  ≡  (x <= z)
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<h3>References</h3>
+					<ul>
+						<li>Haskell's Type Classes: We Can Do Better<br>
+								http://degoes.net/articles/principled-typeclasses</li>
+					</ul>
 				</section>
 			</div>
 		</div>
