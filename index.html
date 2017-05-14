@@ -266,16 +266,16 @@
 						</span>
 					</section>
 					<section id="typeclasses-eq-6">
-						<div>
+						<p>
 							"Type classes can’t stand alone. To be useful writing generic
 							code, they need to ship with laws that describe how they
 							behave."
-						</div>
-						<div>
-							- John A De Goes
+						</p>
+						<p>
+							John A De Goes
 							<br>
 							(Haskell's Type Classes: We Can Do Better)
-						</div>
+						</p>
 					</section>
 				</section>
 				<section>
@@ -317,13 +317,24 @@
 						</span>
 					</section>
 					<section id="typeclasses-ord-2">
-						<div class="fragment fade-in">
+						<div>
 							What laws do you think <code>Ord</code> should have?
 						</div>
 						<span class="fragment fade-in">
 							<span style="color: green;">Transitivity?</span>
 							<pre><code data-trim data-noescape class=language-haskell>
 								(x <= y) &amp;&amp; (y <= z)  ≡  (x <= z)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<span style="color: green;">So maybe not a good idea to encode Rock-Paper-Scissors an Ord instance</span>
+							<pre><code data-trim data-noescape class=language-haskell>
+								(Rock <= Paper) &amp;&amp; (Paper <= Scissors)  ≡  (Rock <= Scissors)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								https://codereview.stackexchange.com/questions/88395/rock-paper-scissors-game
 							</code></pre>
 						</span>
 					</section>
