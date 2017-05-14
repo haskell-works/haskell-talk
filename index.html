@@ -340,6 +340,203 @@
 					</section>
 				</section>
 				<section>
+					<section id="vs-oop">
+						How are typeclasses different to OOP?
+					</section>
+					<section id="vs-oop-1">
+						<p>Function dispatch is based on type, <br>not based on object.
+						</p>
+						<span class="fragment fade-in">
+							<p>
+								There is no need to write code<br>to exclude non-sensical cases.
+							</p>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-java>
+								class Point {
+								  public final int x;
+								  public final int y;
+
+								  public boolean equals(Object o) {
+								    <span style="background: crimson">if (!(o instanceof Point))</span>
+								      <span style="background: crimson">return false;</span>
+								    <span style="background: crimson">Point p = (Point)o;</span>
+								    return (p.x == this.x &amp;&amp; p.y == this.y);
+								  }
+								}
+							</code></pre>
+						</span>
+					</section>
+					<section id="vs-oop-2">
+						Data and behaviour are defined separately.
+						<span class="fragment fade-in">
+							<p>
+								It's possible to define new data types<br>for pre-existing behaviours.
+							</p>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data TriState = On | Off | Unspecified deriving (Eq, Show)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							And define new behaviours for existing datatypes.
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Encode a where
+								  encode :: a -> String
+
+								instance Encode Bool where
+								  encode True 	= "1"
+								  encode False 	= "0"
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section id="overloaded-syntax">
+						Overloaded syntax
+					</section>
+					<section id="overloaded-syntax-strings">
+						Overloaded syntax for strings
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :t "hello" :: String
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								"hello" :: String :: String
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :t "hello"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								"hello" :: Data.String.IsString t => t
+							</code></pre>
+						</span>
+					</section>
+					<section id="is-string-typeclass">
+						IsString Typeclass
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class IsString a where
+								  fromString :: String -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance IsString String where
+								  fromString s = s
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance IsString [Bool] where
+								  fromString ('1':bs) = True :fromString bs
+								  fromString ('0':bs) = False:fromString bs
+								  fromString (_  :bs) =       fromString bs
+								  fromString []       = []
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> "1100 1001" :: [Bool]
+								[True,True,False,False,True,False,False,True]
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section id="semigroup-ord">
+						Semigroup Typeclass
+					</section>
+					<section>
+						List concatenation
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> ("some" :: String) ++ ("how" :: String)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								"somehow"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> ("some" :: Text) ++ ("how" :: Text)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								error:
+								    • Couldn't match expected type ‘[a]’ with actual type ‘Text’
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :t (++)
+								(++) :: [a] -> [a] -> [a]
+							</code></pre>
+						</span>
+					</section>
+					<section id="semigroup-ord-1">
+						Semigroup Typeclass
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Semigroup a where
+								  (&lt;&gt;) :: a -> a -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							Things that can be smashed together
+						</span>
+					</section>
+					<section>
+						Semigroup Concatenation
+						<pre><code data-trim data-noescape class=language-haskell>
+							class Semigroup a where
+							  (&lt;&gt;) :: a -> a -> a
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Semigroup [] where
+								  (&lt;&gt;) = (++)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> ("some" :: String) &lt;&gt; ("how" :: String)
+								"somehow"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Semigroup Text where
+								  (&lt;&gt;) = append
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> ("some" :: Text) &lt;&gt; ("how" :: Text)
+								"somehow"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :t (&lt;&gt;)
+								(&lt;&gt;) :: Semigroup a => a -> a -> a
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
 					<h3>References</h3>
 					<ul>
 						<li>Haskell's Type Classes: We Can Do Better<br>
