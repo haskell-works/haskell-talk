@@ -327,7 +327,7 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<span style="color: green;">So maybe not a good idea to encode Rock-Paper-Scissors an Ord instance</span>
+							<span style="color: green;">So maybe not a good idea to give<br>Rock-Paper-Scissors an Ord instance</span>
 							<pre><code data-trim data-noescape class=language-haskell>
 								(Rock <= Paper) &amp;&amp; (Paper <= Scissors)  ≡  (Rock <= Scissors)
 							</code></pre>
@@ -390,6 +390,34 @@
 								instance Encode Bool where
 								  encode True 	= "1"
 								  encode False 	= "0"
+							</code></pre>
+						</span>
+					</section>
+					<section id="vs-oop-2">
+						<code>Data.Map</code> an example of Data/Behaviour separation
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Map k a = Bin (Map k a) a (Map k a) | Tip
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								empty :: Map k a
+								empty = Tip
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								singleton :: Map k a
+								singleton a = Bin Tip a Tip
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								lookup :: Ord k => k -> Map k a -> Maybe
+								fromList :: Ord k => [(k, a)] -> Map k a
+								insert :: Ord k => k -> a -> Map k a -> Map k a
+								delete :: Ord k => k -> Map k a -> Map k a
 							</code></pre>
 						</span>
 					</section>
