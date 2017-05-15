@@ -25,7 +25,184 @@
 		<div class="reveal">
 			<div class="slides">
 				<section id="intro">
-					A whirlwind tour of typeclasses
+					Express yourself through Haskell Type-classes
+				</section>
+				<section id="parametricity">
+					<section id="parametricity-1">
+						Parametricity
+					</section>
+					<section id="parametricity-2">
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: Bool
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo = True ; foo = False
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|Bool| = 2
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-3">
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							data TriState = On | Off | Unknown
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo = On
+								foo = Off
+								foo = Unknown
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|TriState| = 3
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-4">
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: Bool -> Bool
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo True = True  ; foo False = True
+								foo True = False ; foo False = True
+								foo True = True  ; foo False = False
+								foo True = False ; foo False = False
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|Bool -> Bool| = |Bool| ^ |Bool| = 2 ^ 2 = 4
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-5">
+						<pre><code data-trim data-noescape class=language-haskell>
+							data TriState = On | Off | Unknown
+						</code></pre>
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: TriState -> Bool
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo On = True  ; foo Off = True  ; foo Unkown = True
+								foo On = False ; foo Off = True  ; foo Unkown = True
+								foo On = True  ; foo Off = False ; foo Unkown = True
+								foo On = False ; foo Off = False ; foo Unkown = True
+								foo On = True  ; foo Off = True  ; foo Unkown = False
+								foo On = False ; foo Off = True  ; foo Unkown = False
+								foo On = True  ; foo Off = False ; foo Unkown = False
+								foo On = False ; foo Off = False ; foo Unkown = False
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|TriState -> Bool| = |Bool| ^ |TriState| = 2 ^ 3 = 8
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-6">
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: A -> B
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|A -> B| = |B| ^ |A|
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-7">
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: Int -> Int 		-- Int is a 64-bit integer
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|Int -> Int| = <span class="fragment fade-in">(2 ^ 64) ^ (2 ^ 64)</span>
+								<span class="fragment fade-in">             = 18446744073709551616 ^ 18446744073709551616</span>
+								<span class="fragment fade-in">             > 10 ^ 82</span>
+								<span class="fragment fade-in">             ≈ estimated number of atoms in the universe</span>
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-7">
+						Well, that escalated quickly.
+						<img src="assets/escalated.png"/>
+					</section>
+					<section id="parametricity-7">
+						It doesn't get better
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: Int -> String
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|Int -> String|<span class="fragment fade-in"> = |String| ^ |Int|</span>
+								<span class="fragment fade-in">                = ∞ ^ 18446744073709551616</span>
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-6">
+						Are there functions where the possible number of implementations
+						don't escalate so much?
+					</section>
+					<section id="parametricity-6">
+						How about this one?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: a -> a
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo x = x
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|a -> a| = 1
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-6">
+						Or this one?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: b -> a -> a
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo _ x = x
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|b -> a -> a| = 1
+							</code></pre>
+						</span>
+					</section>
+					<section id="parametricity-6">
+						Or this one?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: (a -> b) -> a -> b
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								foo f x = f x
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=no-highlight>
+								|(a -> b) -> a -> b| = 1
+							</code></pre>
+						</span>
+					</section>
 				</section>
 				<section id="algebraic-data-types">
 					<section>
@@ -560,6 +737,99 @@
 							<pre><code data-trim data-noescape class=language-haskell>
 								λ> :t (&lt;&gt;)
 								(&lt;&gt;) :: Semigroup a => a -> a -> a
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						What does smashing together mean anyway?
+						<pre><code data-trim data-noescape class=language-haskell>
+							class Semigroup a where
+							  (&lt;&gt;) :: a -> a -> a
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								(a &lt;&gt; b) &lt;&gt; c  ≡  a &lt;&gt; (b &lt;&gt; c)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								("never" ++ "the") ++ "less"  ≡  "nevertheless"
+								                              ≡  "never" ++ ("the" ++ "less")
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						What else?
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								(a + b) + c   ≡   a + (b + c)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								(a * b) * c   ≡   a * (b * c)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								(a `min` b) `min` c   ≡   a `min` (b `min` c)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								(a `max` b) `max` c   ≡   a `max` (b `max` c)
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<div>
+							We have four possible semigroups<br>that work on the same type!
+						</div>
+						<div class="fragment fade-in" style="color: orange">
+							But typeclasses dispatch by type.
+						</div>
+						<div class="fragment fade-in" style="color: red">
+							We only have one type, so can
+							only dispatch to one implementation.
+						</div>
+						<div class="fragment fade-in" style="color: lime">
+							Don't worry.  Types are cheap.  Just create more.
+						</div>
+					</section>
+					<section>
+						Using types to select the correct Semigroup instance
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								newtype Sum a = Sum a deriving (Eq, Ord, Num, Show)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Semigroup (Sum a) where
+								  (&lt;&gt;) (Sum a) (Sum b) = Sum (a + b)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> getSum (Sum 1 &lt;&gt; Sum 2 &lt;&gt; Sum 3 &lt;&gt; Sum 4)
+								10
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								newtype Max a = Max a deriving (Eq, Ord, Num, Show)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Semigroup (Max a) where
+								  (&lt;&gt;) (Max a) (Max b) = Max (a `max` b)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> getMax (Max 1 &lt;&gt; Max 2 &lt;&gt; Max 3 &lt;&gt; Max 4)
+								4
 							</code></pre>
 						</span>
 					</section>
