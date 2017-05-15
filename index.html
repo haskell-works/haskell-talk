@@ -887,6 +887,106 @@
 					</section>
 				</section>
 				<section>
+					<section id="monoid">
+						Monoid typeclass
+					</section>
+					<section>
+						Monoid definition
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Monoid a where
+								  mappend :: a -> a -> a <span class="fragment fade-in"> -- Same as (&lt;&gt;) </span>
+								  mempty :: a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							Laws
+							<pre><code data-trim data-noescape class=language-haskell>
+								a `mappend` (b `mappend` c)  ≡  (a `mappend` b) `mappend` c
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								mempty `mappend` a  ≡  a  ≡  a `mappend` mempty
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						Monoid instance for Sum
+						<pre><code data-trim data-noescape class=language-haskell>
+							instance Monoid (Sum a) where
+							  mappend = (+)
+							  mempty = 0
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								a + (b + c)  ≡  (a + b) + c
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								0 + a  ≡  a  ≡  a + 0
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						Monoid instance for Product
+						<pre><code data-trim data-noescape class=language-haskell>
+							instance Monoid (Product a) where
+							  mappend = (*)
+							  mempty = 1
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								a * (b * c)  ≡  (a * b) * c
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								1 * a  ≡  a  ≡  a * 1
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						Haskell knows which instance of <code>Monoid</code> to use based
+						context in which <code>mempty</code> is used.
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> mempty :: Sum Int
+								Sum {getSum = 0}
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> mempty :: Product Int
+								Product {getProduct = 1}
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						Why does <code>foldMap</code> need <code>Monoid</code> rather than
+						semigroup?
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> getProduct (foldMap Product [3, 7]) :: Int
+								21
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> getProduct (foldMap Product [7]) :: Int
+								7
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> getProduct (foldMap Product []) :: Int
+								1
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
 					<h3>References</h3>
 					<ul>
 						<li>Haskell's Type Classes: We Can Do Better<br>
