@@ -845,6 +845,46 @@
 							</code></pre>
 						</span>
 					</section>
+					<section>
+						But this is awkward
+						<pre><code data-trim data-noescape class=language-haskell>
+							λ> getMax (Max 1 &lt;&gt; Max 2 &lt;&gt; Max 3 &lt;&gt; Max 4)
+							4
+						</code></pre>
+						We can do this instead
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> let values = [1, 2, 3, 4] :: [Int]
+								λ> getMax (foldMap Max values)
+								4
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						FoldMap function
+						<pre><code data-trim data-noescape class=language-haskell>
+							λ> :t foldMap
+							foldMap :: (Monoid m, Foldable t) => (a -> m) -> t a -> m
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :info []
+								data [] a = [] | a : [a]
+								...
+								instance Foldable [] -- Defined in ‘Data.Foldable’
+								...
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :info Max
+								newtype Max a = Max {getMax :: a} 	-- Defined in ‘Data.Semigroup’
+								...
+								instance Ord a => Semigroup (Max a) -- Defined in ‘Data.Semigroup’
+								instance (Ord a, Bounded a) => Monoid (Max a)
+							</code></pre>
+						</span>
+					</section>
 				</section>
 				<section>
 					<h3>References</h3>
