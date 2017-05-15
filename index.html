@@ -817,7 +817,7 @@
 						</span>
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								instance Semigroup (Sum a) where
+								instance Num a => Semigroup (Sum a) where
 								  (&lt;&gt;) (Sum a) (Sum b) = Sum (a + b)
 							</code></pre>
 						</span>
@@ -834,7 +834,7 @@
 						</span>
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								instance Semigroup (Max a) where
+								instance Ord a => Semigroup (Max a) where
 								  (&lt;&gt;) (Max a) (Max b) = Max (a `max` b)
 							</code></pre>
 						</span>
