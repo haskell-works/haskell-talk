@@ -586,7 +586,7 @@
 						<code>Data.Map</code> an example of Data/Behaviour separation
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								data Map k a = Bin (Map k a) a (Map k a) | Tip
+								data Map k a = Bin k a (Map k a) (Map k a) | Tip
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
@@ -597,8 +597,8 @@
 						</span>
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								singleton :: Map k a
-								singleton a = Bin Tip a Tip
+								singleton :: k -> a -> Map k a
+								singleton k a = Bin k a Tip Tip
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
