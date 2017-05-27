@@ -42,9 +42,11 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|Bool| = 2
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|Bool| = 2
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-3">
@@ -60,9 +62,11 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|TriState| = 3
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|TriState| = 3
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-4">
@@ -79,9 +83,11 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|Bool -> Bool| = |Bool| ^ |Bool| = 2 ^ 2 = 4
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|Bool \rightarrow Bool| = |Bool| ^ {|Bool|} = 2 ^ 2 = 4
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-5">
@@ -105,9 +111,11 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|TriState -> Bool| = |Bool| ^ |TriState| = 2 ^ 3 = 8
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|TriState \rightarrow Bool| = |Bool| ^ {|TriState|} = 2 ^ 3 = 8
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-6">
@@ -116,9 +124,11 @@
 							foo :: A -> B
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|A -> B| = |B| ^ |A|
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|A \rightarrow B| = |B| ^ {|A|}
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-7">
@@ -127,12 +137,22 @@
 							foo :: Int -> Int 		-- Int is a 64-bit integer
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|Int -> Int| = <span class="fragment fade-in">(2 ^ 64) ^ (2 ^ 64)</span>
-								<span class="fragment fade-in">             = 18446744073709551616 ^ 18446744073709551616</span>
-								<span class="fragment fade-in">             > 10 ^ 82</span>
-								<span class="fragment fade-in">             ≈ estimated number of atoms in the universe</span>
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									\begin{split}
+										|Int \rightarrow Int| & = (2 ^ 64) ^ {2 ^ 64} \\
+																					& = 18446744073709551616 ^ {18446744073709551616} \\
+																					& > 10 ^ {82} \\
+																					& ≈ estimated
+																							\hspace{1mm} number
+																							\hspace{1mm} of
+																							\hspace{1mm} atoms
+																							\hspace{1mm} in
+																							\hspace{1mm} the
+																							\hspace{1mm} universe
+									\end{split}
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-7">
@@ -145,10 +165,14 @@
 							foo :: Int -> String
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|Int -> String|<span class="fragment fade-in"> = |String| ^ |Int|</span>
-								<span class="fragment fade-in">                = ∞ ^ 18446744073709551616</span>
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									\begin{split}
+										|Int \rightarrow String| 	& = |String| ^ {|Int|} \\
+																							& = \infty ^ {18446744073709551616}
+									\end{split}
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-6">
@@ -166,9 +190,11 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|a -> a| = 1
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|a \rightarrow a| = 1
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-6">
@@ -182,9 +208,11 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
-								|b -> a -> a| = 1
-							</code></pre>
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|b \rightarrow a \rightarrow a| = 1
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-6">
@@ -198,8 +226,12 @@
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|(a \rightarrow b) \rightarrow a \rightarrow b| = 1
+								\end{equation}
+							</script>
 							<pre><code data-trim data-noescape class=no-highlight>
-								|(a -> b) -> a -> b| = 1
 							</code></pre>
 						</span>
 					</section>
@@ -1004,10 +1036,15 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				math: {
+					mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+					config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+				},
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/math/math.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
