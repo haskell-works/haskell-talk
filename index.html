@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/night.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -25,11 +25,11 @@
 		<div class="reveal">
 			<div class="slides">
 				<section id="intro">
-					Express yourself through Haskell Type-classes
+					<h3>Express yourself through Haskell Type-classes</h3>
 				</section>
 				<section id="parametricity">
 					<section id="parametricity-1">
-						Parametricity
+						<h3>Parametricity</h3>
 					</section>
 					<section id="parametricity-2">
 						How many possible implementations of this function?
@@ -250,7 +250,7 @@
 				</section>
 				<section id="algebraic-data-types">
 					<section>
-						Algebraic Data Types
+						<h3>Algebraic Data Types</h3>
 					</section>
 					<section id="boolean-1">
 						Boolean type
@@ -321,7 +321,7 @@
 				</section>
 				<section>
 					<section id="typeclass-show">
-						Show Typeclass
+						<h3>Show Typeclass</h3>
 					</section>
 					<section id="typeclasses-show-1">
 						Show Typeclass
@@ -356,7 +356,7 @@
 				</section>
 				<section>
 					<section id="typeclass-eq">
-						Eq Typeclass
+						<h3>Eq Typeclass</h3>
 					</section>
 					<section id="typeclasses-eq-1">
 						Eq Typeclass
@@ -501,7 +501,7 @@
 				</section>
 				<section>
 					<section id="typeclass-ord">
-						Ord Typeclass
+						<h3>Ord Typeclass</h3>
 					</section>
 					<section id="typeclasses-ord-1">
 						Ord Typeclass
@@ -562,7 +562,7 @@
 				</section>
 				<section>
 					<section id="vs-oop">
-						How are typeclasses different to OOP?
+						<h3>How are typeclasses<br>different to OOP?</h3>
 					</section>
 					<section id="vs-oop-1">
 						<p>Function dispatch is based on type, <br>not based on object.
@@ -645,7 +645,7 @@
 				</section>
 				<section>
 					<section id="overloaded-syntax">
-						Overloaded syntax
+						<h3>Overloaded syntax</h3>
 					</section>
 					<section id="overloaded-syntax-strings">
 						Overloaded syntax for strings
@@ -703,7 +703,7 @@
 				</section>
 				<section>
 					<section id="semigroup-ord">
-						Semigroup Typeclass
+						<h3>Semigroup Typeclass</h3>
 					</section>
 					<section>
 						List concatenation
@@ -920,7 +920,7 @@
 				</section>
 				<section>
 					<section id="monoid">
-						Monoid typeclass
+						<h3>Monoid typeclass</h3>
 					</section>
 					<section>
 						Monoid definition
@@ -1019,10 +1019,47 @@
 					</section>
 				</section>
 				<section>
+					<section id="monoid">
+						<h3>Representing algebraic expressions</h3>
+					</section>
+					<section>
+						<h4>Polynomials</h4>
+						<script type="math/tex; mode=display">
+							\begin{equation}
+								f(x) = 3x^2 + 5x + 1
+							\end{equation}
+						</script>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								f :: Double -> Double
+								f x = 3 * x ** 2 + 5 * x + 1
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								 λ> f 1
+								 9.0
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							Does one and one thing only.
+						</span>
+						<span class="fragment fade-in">
+							Can we do better?
+						</span>
+					</section>
+					<section id="monoid">
+						Representing algebraic expressions
+					</section>
+
+				</section>
+				<section>
 					<h3>References</h3>
 					<ul>
 						<li>Haskell's Type Classes: We Can Do Better<br>
 								http://degoes.net/articles/principled-typeclasses</li>
+						<li>Automatic Differentiation is Trivial in Haskell<br>
+						    http://www.danielbrice.net/blog/2015-12-01/</li>
 					</ul>
 				</section>
 			</div>
