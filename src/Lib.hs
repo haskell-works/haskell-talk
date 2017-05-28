@@ -2,9 +2,10 @@
 
 module Lib where
 
+import           Data.Semigroup hiding (Dual)
 import           Data.String
-import           Prelude     hiding ((*), (**), (+), (-), (/))
-import qualified Prelude     as P
+import           Prelude        hiding ((*), (**), (+), (-), (/))
+import qualified Prelude        as P
 
 instance {-# OVERLAPPING #-} IsString [Bool] where
   fromString ('1':bs) = True :fromString bs
@@ -71,5 +72,34 @@ instance Divide Dual where
   (/) (Dual u u') (Dual v v') = Dual (u / v) ((u' * v - u * v') / v ** 2)
 
 data Dual = Dual Double Double deriving (Eq, Show)
+
+newtype AsciiRep = AsciiRep String deriving (Eq, Show)
+
+instance Plus AsciiRep where
+  (+) (AsciiRep u) (AsciiRep v) = AsciiRep (u <> " + " <> v)
+
+instance Multiply AsciiRep where
+  (*) (AsciiRep u) (AsciiRep v) = AsciiRep (u <> " * " <> v)
+
+instance Minus AsciiRep where
+  (-) (AsciiRep u) (AsciiRep v) = AsciiRep (u <> " - " <> v)
+
+instance Divide AsciiRep where
+  (/) (AsciiRep u) (AsciiRep v) = AsciiRep (u <> " / " <> v)
+
+instance Power AsciiRep where
+  (**) (AsciiRep u) (AsciiRep v) = AsciiRep (u <> " ** " <> v)
+
+instance Num AsciiRep where
+  fromInteger n = AsciiRep (show (fromInteger n))
+  (+) _ _   = error "Not implemented"
+  (*) _ _   = error "Not implemented"
+  abs _     = error "Not implemented"
+  signum _  = error "Not implemented"
+  negate _  = error "Not implemented"
+
+instance Fractional AsciiRep where
+  fromRational n = AsciiRep (show (fromRational n))
+  (/) _ _ = error "Not implemented"
 
 f x = 3 * x ** 2 + 5 * x + 1
