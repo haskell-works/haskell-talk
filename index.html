@@ -238,11 +238,48 @@
 								\end{equation}
 							</script>
 						</span>
+					</section>
+					<section>
+						But?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: (a -> b) -> a -> b
+						</code></pre>
 						<span class="fragment fade-in">
-							But?
+							<pre><code data-trim data-noescape class=language-haskell>
+								foo :: (a -> b) -> (a -> b)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
 								foo = id
 							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								foo = \f -> f
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								foo f = f
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								foo f = \x -> f x
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								foo f x = f x
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									|(a \rightarrow b) \rightarrow a \rightarrow b| = 1
+								\end{equation}
+							</script>
 						</span>
 					</section>
 					<section id="parametricity-6">
