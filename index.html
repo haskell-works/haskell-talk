@@ -1338,7 +1338,7 @@
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
 								instance Divide Dual where
-								  (/) (Dual u u') (Dual v v') = Dual (u / v) ((u^\prime v - u * v^\prime) / v ^ 2)
+								  (/) (Dual u u') (Dual v v') = Dual (u / v) ((u' v - u * v') / v ^ 2)
 							</code></pre>
 						</span>
 					</section>
