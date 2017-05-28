@@ -134,6 +134,10 @@ instance Fractional AsciiRep2 where
   fromRational n = AsciiRep2 (show (fromRational n)) 9
   (/) _ _ = error "Not implemented"
 
+asciiRep2 :: (AsciiRep2 -> AsciiRep2) -> String
+asciiRep2 f = case f (AsciiRep2 "x" 9) of
+  AsciiRep2 s _ -> s
+
 f x = 3 * x ** 2 + 5 * x + 1
 
 g x = x * (x + 1)

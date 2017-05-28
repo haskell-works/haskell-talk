@@ -1019,7 +1019,62 @@
 					</section>
 				</section>
 				<section>
-					<section id="monoid">
+					<section id="num-typeclass">
+						<h3>Num &amp; Fractional Typeclasses</h3>
+					</section>
+					<section>
+						<h4>Num typeclass</h4>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Num a where
+								  (+) :: a -> a -> a
+								  (-) :: a -> a -> a
+								  (*) :: a -> a -> a
+								  negate :: a -> a
+								  abs :: a -> a
+								  signum :: a -> a
+								  fromInteger :: Integer -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> 1 :: Int
+								1
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> 1 :: Double
+								1.0
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Fractional typeclass</h4>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Num a => Fractional a where
+								  (P./) :: a -> a -> a
+								  recip :: a -> a
+								  fromRational :: Rational -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> 1.3 :: Double
+								1.3
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> 1.3 :: Rational
+								13 % 10
+							</code></pre>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section id="algebraic-expressions">
 						<h3>Representing algebraic expressions</h3>
 					</section>
 					<section>
@@ -1048,10 +1103,178 @@
 							Can we do better?
 						</span>
 					</section>
-					<section id="monoid">
-						Representing algebraic expressions
+					<section>
+						<h4>Let's define some typeclasses for algebra</h4>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								import           Prelude hiding ((*), (**), (+), (-), (/))
+								import qualified Prelude as P
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								infixr 8  **
+								infixl 7  *
+								infixl 6  +
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Plus a where
+								  (+) :: a -> a -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Multiply a where
+								  (*) :: a -> a -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								class Power a where
+								  (**) :: a -> a -> a
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								f x = 3 * x ** 2 + 5 * x + 1
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> :t f
+								f :: (Plus a, Multiply a, Num a, Power a) => a -> a
+							</code></pre>
+						</span>
 					</section>
+					<section>
+						<h4>Evaluating the polynomial</h4>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Plus Double where
+								  (+) u v = u P.+ v
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Multiply Double where
+								  (*) u v = u P.* v
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Power Double where
+								  (**) u v = u P.** v
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> f 1
+								9.0
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Printing the polynomial 1</h4>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data AsciiRep = AsciiRep
+								  { ascii      :: String
+								  , precedence :: Int
+								  } deriving (Eq, Show)
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Plus AsciiRep where
+								  (+) (AsciiRep u p) (AsciiRep v q) =
+								    AsciiRep (bracket 6 p u &lt;&gt; " + " &lt;&gt; bracket 6 q v) 6
 
+								instance Multiply AsciiRep where
+								  (*) (AsciiRep u p) (AsciiRep v q) =
+								    AsciiRep (bracket 7 p u &lt;&gt; " * " &lt;&gt; bracket 7 q v) 7
+
+								instance Power AsciiRep where
+								  (**) (AsciiRep u p) (AsciiRep v q) =
+								    AsciiRep (bracket 8 p u &lt;&gt; " ** " &lt;&gt; bracket 8 q v) 8
+								</code></pre>
+							</span>
+						</section>
+						<section>
+							<h4>Printing the polynomial 2</h4>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									bracket :: Int -> Int -> String -> String
+									bracket p q u = if p <= q then u else "(" &lt;&gt; u &lt;&gt; ")"
+								</code></pre>
+							</span>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+								instance Num AsciiRep where
+								  fromInteger n = AsciiRep (show (fromInteger n)) 9
+								  (+) _ _   = error "Not implemented"
+								  (*) _ _   = error "Not implemented"
+								  abs _     = error "Not implemented"
+								  signum _  = error "Not implemented"
+								  negate _  = error "Not implemented"
+								</code></pre>
+							</span>
+						</section>
+						<section>
+							<h4>Printing the polynomial 3</h4>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									asciiRep :: (AsciiRep -> AsciiRep) -> String
+									asciiRep f = case f (AsciiRep "x" 9) of
+									  AsciiRep s _ -> s
+								</code></pre>
+							</span>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									f x = 3 * x ** 2 + 5 * x + 1
+								</code></pre>
+							</span>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									λ> asciiRep f
+									"3 * x ** 2 + 5 * x + 1"
+								</code></pre>
+							</span>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									g x = x * (x + 1)
+								</code></pre>
+							</span>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									λ> asciiRep g
+									"x * (x + 1)"
+								</code></pre>
+							</span>
+						</section>
+						<section>
+							<h4>Printing the polynomial 3</h4>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Multiply Double where
+								  (*) u v = u P.* v
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Power Double where
+								  (**) u v = u P.** v
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> f 1
+								9.0
+							</code></pre>
+						</span>
+					</section>
 				</section>
 				<section>
 					<h3>References</h3>
