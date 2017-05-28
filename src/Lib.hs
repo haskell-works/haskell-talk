@@ -102,4 +102,38 @@ instance Fractional AsciiRep where
   fromRational n = AsciiRep (show (fromRational n))
   (/) _ _ = error "Not implemented"
 
+data AsciiRep2 = AsciiRep2 String Int deriving (Eq, Show)
+
+bracket :: Int -> Int -> String -> String
+bracket p q u = if p <= q then u else "(" <> u <> ")"
+
+instance Plus AsciiRep2 where
+  (+) (AsciiRep2 u p) (AsciiRep2 v q) = AsciiRep2 (bracket 6 p u <> " + " <> bracket 6 q v) 6
+
+instance Minus AsciiRep2 where
+  (-) (AsciiRep2 u p) (AsciiRep2 v q) = AsciiRep2 (bracket 6 p u <> " - " <> bracket 6 q v) 6
+
+instance Multiply AsciiRep2 where
+  (*) (AsciiRep2 u p) (AsciiRep2 v q) = AsciiRep2 (bracket 7 p u <> " * " <> bracket 7 q v) 7
+
+instance Divide AsciiRep2 where
+  (/) (AsciiRep2 u p) (AsciiRep2 v q) = AsciiRep2 (bracket 7 p u <> " / " <> bracket 7 q v) 7
+
+instance Power AsciiRep2 where
+  (**) (AsciiRep2 u p) (AsciiRep2 v q) = AsciiRep2 (bracket 8 p u <> " ** " <> bracket 8 q v) 8
+
+instance Num AsciiRep2 where
+  fromInteger n = AsciiRep2 (show (fromInteger n)) 9
+  (+) _ _   = error "Not implemented"
+  (*) _ _   = error "Not implemented"
+  abs _     = error "Not implemented"
+  signum _  = error "Not implemented"
+  negate _  = error "Not implemented"
+
+instance Fractional AsciiRep2 where
+  fromRational n = AsciiRep2 (show (fromRational n)) 9
+  (/) _ _ = error "Not implemented"
+
 f x = 3 * x ** 2 + 5 * x + 1
+
+g x = x * (x + 1)
