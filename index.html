@@ -53,12 +53,15 @@
 						</span>
 					</section>
 					<section id="parametricity-3">
-						How many possible implementations of this function?
 						<pre><code data-trim data-noescape class=language-haskell>
 							data TriState = On | Off | Unknown
 						</code></pre>
+						How many possible implementations of this function?
+						<pre><code data-trim data-noescape class=language-haskell>
+							foo :: Bool
+						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
+							<pre><code data-trim data-noescape class=language-haskell>
 								foo = On
 								foo = Off
 								foo = Unknown
@@ -78,7 +81,7 @@
 							foo :: Bool -> Bool
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
+							<pre><code data-trim data-noescape class=language-haskell>
 								foo True = True  ; foo False = True
 								foo True = False ; foo False = True
 								foo True = True  ; foo False = False
@@ -102,7 +105,7 @@
 							foo :: TriState -> Bool
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
+							<pre><code data-trim data-noescape class=language-haskell>
 								foo On = True  ; foo Off = True  ; foo Unkown = True
 								foo On = False ; foo Off = True  ; foo Unkown = True
 								foo On = True  ; foo Off = False ; foo Unkown = True
@@ -188,7 +191,7 @@
 							foo :: a -> a
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
+							<pre><code data-trim data-noescape class=language-haskell>
 								foo x = x
 							</code></pre>
 						</span>
@@ -206,7 +209,7 @@
 							foo :: b -> a -> a
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
+							<pre><code data-trim data-noescape class=language-haskell>
 								foo _ x = x
 							</code></pre>
 						</span>
@@ -224,7 +227,7 @@
 							foo :: (a -> b) -> a -> b
 						</code></pre>
 						<span class="fragment fade-in">
-							<pre><code data-trim data-noescape class=no-highlight>
+							<pre><code data-trim data-noescape class=language-haskell>
 								foo f x = f x
 							</code></pre>
 						</span>
@@ -234,7 +237,11 @@
 									|(a \rightarrow b) \rightarrow a \rightarrow b| = 1
 								\end{equation}
 							</script>
-							<pre><code data-trim data-noescape class=no-highlight>
+						</span>
+						<span class="fragment fade-in">
+							But?
+							<pre><code data-trim data-noescape class=language-haskell>
+								foo = id
 							</code></pre>
 						</span>
 					</section>
