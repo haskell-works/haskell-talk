@@ -1254,24 +1254,159 @@
 							</span>
 						</section>
 						<section>
-							<h4>Printing the polynomial 3</h4>
+							<h4>Adding more operations</h4>
+							<span class="fragment fade-in">
+								<pre><code data-trim data-noescape class=language-haskell>
+									class Minus a where
+									  (-) :: a -> a -> a
+
+									class Divide a where
+									  (/) :: a -> a -> a
+
+									class Power a where
+									  (**) :: a -> a -> a
+							</code></pre>
 						</span>
+					</section>
+					<section>
+						<h4>Automatic Differentiation</h4>
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								instance Multiply Double where
-								  (*) u v = u P.* v
+								data Dual = Dual
+								  { appliedPolynomial :: Double
+								  , appliedDerivative :: Double
+								  } deriving (Eq, Show)
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								instance Power Double where
-								  (**) u v = u P.** v
+								instance Num Dual where
+								  fromInteger n = Dual (fromInteger n) 0
+								  ...
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Sum rule</h4>
+						<script type="math/tex; mode=display">
+							\begin{equation}
+								(u + v)^\prime = u^\prime + v^\prime
+							\end{equation}
+						</script>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Plus Dual where
+								  (+) (Dual u u') (Dual v v') = Dual (u + v) (u' + v')
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Difference rule</h4>
+						<script type="math/tex; mode=display">
+							\begin{equation}
+								(u - v)^\prime = u^\prime - v^\prime
+							\end{equation}
+						</script>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Minus Dual where
+								  (-) (Dual u u') (Dual v v') = Dual (u - v) (u' - v')
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Product rule</h4>
+						<script type="math/tex; mode=display">
+							\begin{equation}
+								(uv)^\prime = u^{\prime}v + u v^\prime
+							\end{equation}
+						</script>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Multiply Dual where
+								  (*) (Dual u u') (Dual v v') = Dual (u * v) (u' * v + u * v')
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Quotient rule</h4>
+						<script type="math/tex; mode=display">
+							\begin{equation}
+								\left(\frac{u}{v}\right)^\prime = \frac{u^{\prime}v - u v^\prime}{v^2}
+							\end{equation}
+						</script>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Divide Dual where
+								  (/) (Dual u u') (Dual v v') = Dual (u / v) ((u^\prime v - u * v^\prime) / v ^ 2)
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Exponentials - (Chain rule + Product rule)</h4>
+						<script type="math/tex; mode=display">
+							\begin{equation}
+								\begin{split}
+									                      y & =          u^v                                                             \\
+									                 \ln{y} & =          \ln{u^v}                                                        \\
+									                 \ln{y} & =          v\ln{u}                                                         \\
+									{\frac{1}{y}}y^{\prime} & =          v^{\prime}\ln{u} + v{\frac{1}{u}}                               \\
+									             y^{\prime} & =   y\left(v^{\prime}\ln{u} + v\left({\frac{1}{u}}u^{\prime}\right)\right) \\
+															 y^{\prime} & = u^v\left(v^{\prime}\ln{u} + \frac{vu^{\prime}}{u}\right)              \\
+								\end{split}
+							\end{equation}
+						</script>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								instance Power Dual where
+								  (**) (Dual u u') (Dual v v') =
+								    Dual (u ** v) (u ** v * (v' * log u + (v * u' / u)))
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h4>Applying the derivative</h4>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								derivativeApply :: (Dual -> Dual) -> Double -> Double
+								derivativeApply f x = case f (Dual x 1) of
+								  Dual _ d -> d
 							</code></pre>
 						</span>
 						<span class="fragment fade-in">
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									f(x) = 3x^2 + 5x + 1
+								\end{equation}
+							</script>
+						</span>
+						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
-								λ> f 1
-								9.0
+								f x = 3 * x ** 2 + 5 * x + 1
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									\begin{split}
+										f^\prime(x)	& = 6x + 5
+									\end{split}
+								\end{equation}
+							</script>
+						</span>
+						<span class="fragment fade-in">
+							<script type="math/tex; mode=display">
+								\begin{equation}
+									\begin{split}
+										f^\prime(1)	& = 11
+									\end{split}
+								\end{equation}
+							</script>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								λ> derivativeApply f 1
+								11.0
 							</code></pre>
 						</span>
 					</section>
@@ -1283,6 +1418,10 @@
 								http://degoes.net/articles/principled-typeclasses</li>
 						<li>Automatic Differentiation is Trivial in Haskell<br>
 						    http://www.danielbrice.net/blog/2015-12-01/</li>
+						<li>Typed final (tagless-final) style<br>
+						    http://okmij.org/ftp/tagless-final/</li>
+						<li>Derivatives of Exponential Functions &amp; Logarithmic Differentiation Calculus<br>
+								https://www.youtube.com/watch?v=zmnh448y_ZU
 					</ul>
 				</section>
 			</div>

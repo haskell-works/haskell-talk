@@ -71,6 +71,14 @@ instance Minus Dual where
 instance Divide Dual where
   (/) (Dual u u') (Dual v v') = Dual (u / v) ((u' * v - u * v') / v ** 2)
 
+instance Power Dual where
+  (**) (Dual u u') (Dual v v') =
+    Dual (u ** v) (u ** v * (v' * log u + (v * u' / u)))
+
+derivativeApply :: (Dual -> Dual) -> Double -> Double
+derivativeApply f x = case f (Dual x 1) of
+  Dual _ d -> d
+
 data Dual = Dual Double Double deriving (Eq, Show)
 
 newtype AsciiRep = AsciiRep String deriving (Eq, Show)
