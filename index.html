@@ -991,8 +991,8 @@
 							λ> getMax (Max 1 &lt;&gt; Max 2 &lt;&gt; Max 3 &lt;&gt; Max 4)
 							4
 						</code></pre>
-						We can do this instead
 						<span class="fragment fade-in">
+							We can do this instead
 							<pre><code data-trim data-noescape class=language-haskell>
 								λ> let values = [1, 2, 3, 4] :: [Int]
 								λ> getMax (foldMap Max values)
@@ -1362,7 +1362,7 @@
 							</span>
 						</section>
 						<section>
-							<h4>Adding more operations</h4>
+							<h4>Adding more interpreters</h4>
 							<span class="fragment fade-in">
 								<pre><code data-trim data-noescape class=language-haskell>
 									class Minus a where
