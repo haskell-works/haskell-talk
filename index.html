@@ -428,6 +428,39 @@
 							</code></pre>
 						</span>
 					</section>
+					<section id="typeclasses-show-1">
+						Show Typeclass implementation
+						<pre><code data-trim data-noescape class=language-haskell>
+							data Show a = Show (a -> String)
+
+							show :: Show a -> a -> String
+							show (Show f) a = f a
+						</code></pre>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								data Color = Red | Green | Blue
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								showColor :: Show Color
+								showColor = Show f
+								  where f Red   = "Red"
+								        f Green = "Green"
+								        f Blue  = "Blue"
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								show Red
+							</code></pre>
+						</span>
+						<span class="fragment fade-in">
+							<pre><code data-trim data-noescape class=language-haskell>
+								show showColor Red
+							</code></pre>
+						</span>
+					</section>
 				</section>
 				<section>
 					<section id="typeclass-eq">
