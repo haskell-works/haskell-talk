@@ -619,7 +619,7 @@
 						<span class="fragment fade-in">
 							<pre><code data-trim data-noescape class=language-haskell>
 								class Eq a => Ord a where
-								  compare :: a -> a -> Bool
+								  compare :: a -> a -> Ordering
 								<span class="fragment fade-in">
 								  x <  y = case compare x y of { LT -> True;  _ -> False }
 								  x <= y = case compare x y of { GT -> False; _ -> True  }
