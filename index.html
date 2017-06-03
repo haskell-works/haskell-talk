@@ -79,12 +79,16 @@
 								\end{equation}
 							</script>
 						</span>
+						<span class="fragment fade-in">
+							We say that <code data-trim data-noescape class=language-haskell>Bool</code>
+							has 2 inhabitants.
+						</span>
 					</section>
 					<section id="parametricity-3">
 						<pre><code data-trim data-noescape class=language-haskell>
 							data TriState = On | Off | Unknown
 						</code></pre>
-						How many possible implementations of this function?
+						How many inhabitants?
 						<pre><code data-trim data-noescape class=language-haskell>
 							foo :: TriState
 						</code></pre>
@@ -104,7 +108,7 @@
 						</span>
 					</section>
 					<section id="parametricity-4">
-						How many possible implementations of this function?
+						How many inhabitants?
 						<pre><code data-trim data-noescape class=language-haskell>
 							foo :: Bool -> Bool
 						</code></pre>
@@ -128,7 +132,7 @@
 						<pre><code data-trim data-noescape class=language-haskell>
 							data TriState = On | Off | Unknown
 						</code></pre>
-						How many possible implementations of this function?
+						How many inhabitants?
 						<pre><code data-trim data-noescape class=language-haskell>
 							foo :: TriState -> Bool
 						</code></pre>
@@ -153,7 +157,7 @@
 						</span>
 					</section>
 					<section id="parametricity-6">
-						How many possible implementations of this function?
+						How many inhabitants?
 						<pre><code data-trim data-noescape class=language-haskell>
 							foo :: A -> B
 						</code></pre>
@@ -166,7 +170,7 @@
 						</span>
 					</section>
 					<section id="parametricity-7">
-						How many possible implementations of this function?
+						How many inhabitants?
 						<pre><code data-trim data-noescape class=language-haskell>
 							foo :: Int -> Int 		-- Int is a 64-bit integer
 						</code></pre>
@@ -210,7 +214,7 @@
 						</span>
 					</section>
 					<section id="parametricity-6">
-						Are there functions where the possible number of implementations
+						Are there functions where the number of inhabitants
 						don't escalate so much?
 					</section>
 					<section id="parametricity-6">
